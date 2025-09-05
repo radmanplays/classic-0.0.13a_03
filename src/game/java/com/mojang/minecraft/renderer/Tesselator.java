@@ -7,7 +7,7 @@ import net.lax1dude.eaglercraft.opengl.WorldVertexBufferUploader;
 public class Tesselator {
 	
 	private net.lax1dude.eaglercraft.opengl.WorldRenderer worldRenderer;
-	public static final Tesselator tesselator = new Tesselator(524288);
+	public static final Tesselator instance = new Tesselator(524288);
 	private final VertexFormat format = VertexFormat.MODIFIABLE;
 	
 	private double textureU = 0;

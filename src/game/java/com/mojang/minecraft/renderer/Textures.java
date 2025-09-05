@@ -31,6 +31,7 @@ public class Textures {
             int h = img.height;
             ByteBuffer pixels = GLAllocation.createByteBuffer(w * h * 4);
             int[] rawPixels = new int[w * h];
+            byte[] var6 = new byte[w * h << 2];
             img.getRGB(0, 0, w, h, rawPixels, 0, w);
 
             for(int i = 0; i < rawPixels.length; ++i) {
@@ -38,10 +39,14 @@ public class Textures {
                 int r = rawPixels[i] >> 16 & 255;
                 int g = rawPixels[i] >> 8 & 255;
                 int b = rawPixels[i] & 255;
-                rawPixels[i] = a << 24 | r << 16 | g << 8 | b;
+				var6[i << 2] = (byte)b;
+				var6[(i << 2) + 1] = (byte)g;
+				var6[(i << 2) + 2] = (byte)r;
+				var6[(i << 2) + 3] = (byte)a;
             }
 
-            pixels.asIntBuffer().put(rawPixels);
+            pixels.put(var6);
+            pixels.position(0).limit(var6.length);
             GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, w, h, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels);
             return id;
         }

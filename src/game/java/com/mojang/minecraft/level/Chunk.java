@@ -21,9 +21,9 @@ public final class Chunk {
 	private boolean dirty = true;
 	private int lists = -1;
 	public boolean visible;
-	private static Tesselator t = Tesselator.tesselator;
+	public boolean canRender;
+	private static Tesselator t = Tesselator.instance;
 	public static int updates = 0;
-	private static long totalTime = 0L;
 	private static int totalUpdates = 0;
 
 	public Chunk(Level var1, int var2, int var3, int var4, int var5, int var6, int var7) {
@@ -42,34 +42,37 @@ public final class Chunk {
 	}
 
 	private void rebuild(int var1) {
-		long var2 = System.nanoTime();
 		GL11.glNewList(this.lists + var1, GL11.GL_COMPILE);
 		t.begin();
-		int var4 = 0;
+		int var2 = 0;
+		boolean var3 = false;
 
-		for(int var5 = this.x0; var5 < this.x1; ++var5) {
-			for(int var6 = this.y0; var6 < this.y1; ++var6) {
-				for(int var7 = this.z0; var7 < this.z1; ++var7) {
-					int var8 = this.level.getTile(var5, var6, var7);
-					if(var8 > 0) {
-						Tile.tiles[var8].render(t, this.level, var1, var5, var6, var7);
-						++var4;
+		for(int var4 = this.x0; var4 < this.x1; ++var4) {
+			for(int var5 = this.y0; var5 < this.y1; ++var5) {
+				for(int var6 = this.z0; var6 < this.z1; ++var6) {
+					int var7 = this.level.getTile(var4, var5, var6);
+					if(var7 > 0) {
+						var3 |= Tile.tiles[var7].render(t, this.level, var1, var4, var5, var6);
+						++var2;
 					}
 				}
 			}
 		}
 
+		if(var3) {
+			this.canRender = false;
+		}
+
 		t.end();
 		GL11.glEndList();
-		long var9 = System.nanoTime();
-		if(var4 > 0) {
-			totalTime += var9 - var2;
+		if(var2 > 0) {
 			++totalUpdates;
 		}
 
 	}
 
 	public final void rebuild() {
+		this.canRender = true;
 		++updates;
 		this.rebuild(0);
 		this.rebuild(1);
@@ -77,16 +80,14 @@ public final class Chunk {
 		this.dirty = false;
 	}
 
-	public final void render(int var1) {
-		
+	public final int render(int var1) {
 	    if (var1 == 1) {
 	        GL11.glEnable(GL11.GL_BLEND);
 	        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	        GL11.glEnable(GL11.GL_ALPHA_TEST);
 	        GL11.glAlphaFunc(GL11.GL_GREATER, 0.1f);
 	    }
-	    
-		GL11.glCallList(this.lists + var1);
+		return this.lists + var1;
 	}
 
 	public final void setDirty() {
@@ -101,7 +102,7 @@ public final class Chunk {
 		return this.dirty;
 	}
 
-	public final float distanceToSqr(Player var1) {
+	public final float compare(Player var1) {
 		float var2 = var1.x - this.x;
 		float var3 = var1.y - this.y;
 		float var4 = var1.z - this.z;
@@ -116,5 +117,9 @@ public final class Chunk {
 			GL11.glEndList();
 		}
 
+	}
+
+	public final void reset2() {
+		GL11.glDeleteLists(this.lists);
 	}
 }

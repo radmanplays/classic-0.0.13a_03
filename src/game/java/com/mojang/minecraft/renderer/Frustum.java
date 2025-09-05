@@ -10,40 +10,40 @@ import org.lwjgl.opengl.GL11;
 public final class Frustum {
 	private float[][] m_Frustum = new float[6][4];
 	private static Frustum frustum = new Frustum();
-	private FloatBuffer projectionBuffer = GLAllocation.createFloatBuffer(16);
-	private FloatBuffer modelBuffer = GLAllocation.createFloatBuffer(16);
-	private FloatBuffer clipBuffer = GLAllocation.createFloatBuffer(16);
-	private float[] projection = new float[16];
-	private float[] model = new float[16];
+	private FloatBuffer _proj = GLAllocation.createFloatBuffer(16);
+	private FloatBuffer _modl = GLAllocation.createFloatBuffer(16);
+	private FloatBuffer _clip = GLAllocation.createFloatBuffer(16);
+	private float[] proj = new float[16];
+	private float[] modl = new float[16];
 	private float[] clip = new float[16];
 
-	public static Frustum calculateFrustum() {
+	public static Frustum getFrustum() {
 		Frustum var0 = frustum;
-		var0.projectionBuffer.clear();
-		var0.modelBuffer.clear();
-		var0.clipBuffer.clear();
-		GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, var0.projectionBuffer);
-		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, var0.modelBuffer);
-		var0.projectionBuffer.flip().limit(16);
-		var0.projectionBuffer.get(var0.projection);
-		var0.modelBuffer.flip().limit(16);
-		var0.modelBuffer.get(var0.model);
-		var0.clip[0] = var0.model[0] * var0.projection[0] + var0.model[1] * var0.projection[4] + var0.model[2] * var0.projection[8] + var0.model[3] * var0.projection[12];
-		var0.clip[1] = var0.model[0] * var0.projection[1] + var0.model[1] * var0.projection[5] + var0.model[2] * var0.projection[9] + var0.model[3] * var0.projection[13];
-		var0.clip[2] = var0.model[0] * var0.projection[2] + var0.model[1] * var0.projection[6] + var0.model[2] * var0.projection[10] + var0.model[3] * var0.projection[14];
-		var0.clip[3] = var0.model[0] * var0.projection[3] + var0.model[1] * var0.projection[7] + var0.model[2] * var0.projection[11] + var0.model[3] * var0.projection[15];
-		var0.clip[4] = var0.model[4] * var0.projection[0] + var0.model[5] * var0.projection[4] + var0.model[6] * var0.projection[8] + var0.model[7] * var0.projection[12];
-		var0.clip[5] = var0.model[4] * var0.projection[1] + var0.model[5] * var0.projection[5] + var0.model[6] * var0.projection[9] + var0.model[7] * var0.projection[13];
-		var0.clip[6] = var0.model[4] * var0.projection[2] + var0.model[5] * var0.projection[6] + var0.model[6] * var0.projection[10] + var0.model[7] * var0.projection[14];
-		var0.clip[7] = var0.model[4] * var0.projection[3] + var0.model[5] * var0.projection[7] + var0.model[6] * var0.projection[11] + var0.model[7] * var0.projection[15];
-		var0.clip[8] = var0.model[8] * var0.projection[0] + var0.model[9] * var0.projection[4] + var0.model[10] * var0.projection[8] + var0.model[11] * var0.projection[12];
-		var0.clip[9] = var0.model[8] * var0.projection[1] + var0.model[9] * var0.projection[5] + var0.model[10] * var0.projection[9] + var0.model[11] * var0.projection[13];
-		var0.clip[10] = var0.model[8] * var0.projection[2] + var0.model[9] * var0.projection[6] + var0.model[10] * var0.projection[10] + var0.model[11] * var0.projection[14];
-		var0.clip[11] = var0.model[8] * var0.projection[3] + var0.model[9] * var0.projection[7] + var0.model[10] * var0.projection[11] + var0.model[11] * var0.projection[15];
-		var0.clip[12] = var0.model[12] * var0.projection[0] + var0.model[13] * var0.projection[4] + var0.model[14] * var0.projection[8] + var0.model[15] * var0.projection[12];
-		var0.clip[13] = var0.model[12] * var0.projection[1] + var0.model[13] * var0.projection[5] + var0.model[14] * var0.projection[9] + var0.model[15] * var0.projection[13];
-		var0.clip[14] = var0.model[12] * var0.projection[2] + var0.model[13] * var0.projection[6] + var0.model[14] * var0.projection[10] + var0.model[15] * var0.projection[14];
-		var0.clip[15] = var0.model[12] * var0.projection[3] + var0.model[13] * var0.projection[7] + var0.model[14] * var0.projection[11] + var0.model[15] * var0.projection[15];
+		var0._proj.clear();
+		var0._modl.clear();
+		var0._clip.clear();
+		GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, var0._proj);
+		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, var0._modl);
+		var0._proj.flip().limit(16);
+		var0._proj.get(var0.proj);
+		var0._modl.flip().limit(16);
+		var0._modl.get(var0.modl);
+		var0.clip[0] = var0.modl[0] * var0.proj[0] + var0.modl[1] * var0.proj[4] + var0.modl[2] * var0.proj[8] + var0.modl[3] * var0.proj[12];
+		var0.clip[1] = var0.modl[0] * var0.proj[1] + var0.modl[1] * var0.proj[5] + var0.modl[2] * var0.proj[9] + var0.modl[3] * var0.proj[13];
+		var0.clip[2] = var0.modl[0] * var0.proj[2] + var0.modl[1] * var0.proj[6] + var0.modl[2] * var0.proj[10] + var0.modl[3] * var0.proj[14];
+		var0.clip[3] = var0.modl[0] * var0.proj[3] + var0.modl[1] * var0.proj[7] + var0.modl[2] * var0.proj[11] + var0.modl[3] * var0.proj[15];
+		var0.clip[4] = var0.modl[4] * var0.proj[0] + var0.modl[5] * var0.proj[4] + var0.modl[6] * var0.proj[8] + var0.modl[7] * var0.proj[12];
+		var0.clip[5] = var0.modl[4] * var0.proj[1] + var0.modl[5] * var0.proj[5] + var0.modl[6] * var0.proj[9] + var0.modl[7] * var0.proj[13];
+		var0.clip[6] = var0.modl[4] * var0.proj[2] + var0.modl[5] * var0.proj[6] + var0.modl[6] * var0.proj[10] + var0.modl[7] * var0.proj[14];
+		var0.clip[7] = var0.modl[4] * var0.proj[3] + var0.modl[5] * var0.proj[7] + var0.modl[6] * var0.proj[11] + var0.modl[7] * var0.proj[15];
+		var0.clip[8] = var0.modl[8] * var0.proj[0] + var0.modl[9] * var0.proj[4] + var0.modl[10] * var0.proj[8] + var0.modl[11] * var0.proj[12];
+		var0.clip[9] = var0.modl[8] * var0.proj[1] + var0.modl[9] * var0.proj[5] + var0.modl[10] * var0.proj[9] + var0.modl[11] * var0.proj[13];
+		var0.clip[10] = var0.modl[8] * var0.proj[2] + var0.modl[9] * var0.proj[6] + var0.modl[10] * var0.proj[10] + var0.modl[11] * var0.proj[14];
+		var0.clip[11] = var0.modl[8] * var0.proj[3] + var0.modl[9] * var0.proj[7] + var0.modl[10] * var0.proj[11] + var0.modl[11] * var0.proj[15];
+		var0.clip[12] = var0.modl[12] * var0.proj[0] + var0.modl[13] * var0.proj[4] + var0.modl[14] * var0.proj[8] + var0.modl[15] * var0.proj[12];
+		var0.clip[13] = var0.modl[12] * var0.proj[1] + var0.modl[13] * var0.proj[5] + var0.modl[14] * var0.proj[9] + var0.modl[15] * var0.proj[13];
+		var0.clip[14] = var0.modl[12] * var0.proj[2] + var0.modl[13] * var0.proj[6] + var0.modl[14] * var0.proj[10] + var0.modl[15] * var0.proj[14];
+		var0.clip[15] = var0.modl[12] * var0.proj[3] + var0.modl[13] * var0.proj[7] + var0.modl[14] * var0.proj[11] + var0.modl[15] * var0.proj[15];
 		var0.m_Frustum[0][0] = var0.clip[3] - var0.clip[0];
 		var0.m_Frustum[0][1] = var0.clip[7] - var0.clip[4];
 		var0.m_Frustum[0][2] = var0.clip[11] - var0.clip[8];
@@ -85,7 +85,7 @@ public final class Frustum {
 		var0[var1][3] /= var2;
 	}
 
-	public final boolean isVisible(AABB var1) {
+	public final boolean cubeInFrustum(AABB var1) {
 		float var6 = var1.z1;
 		float var5 = var1.y1;
 		float var4 = var1.x1;

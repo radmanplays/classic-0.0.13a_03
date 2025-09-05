@@ -8,7 +8,7 @@ import java.util.Random;
 public final class Bush extends Tile {
 	protected Bush(int var1) {
 		super(6);
-		this.textureIndex = 15;
+		this.tex = 15;
 		this.setTicking(true);
 	}
 
@@ -20,8 +20,10 @@ public final class Bush extends Tile {
 
 	}
 
-	public final void render(Tesselator var1, Level var2, int var3, int var4, int var5, int var6) {
-		if(!(var2.isLit(var4, var5, var6) ^ var3 != 1)) {
+	public final boolean render(Tesselator var1, Level var2, int var3, int var4, int var5, int var6) {
+		if(var2.isLit(var4, var5, var6) ^ var3 != 1) {
+			return false;
+		} else {
 			int var15 = this.getTexture(15);
 			float var17 = (float)(var15 % 16) / 16.0F;
 			float var18 = var17 + 0.999F / 16.0F;
@@ -42,16 +44,17 @@ public final class Bush extends Tile {
 				var1.vertexUV(var9, var13, var10, var17, var16);
 				var1.vertexUV(var9, var12, var10, var17, var7);
 				var1.vertexUV(var11, var12, var14, var18, var7);
-				var1.vertexUV(var9, var13, var10, var17, var16);
-				var1.vertexUV(var11, var13, var14, var18, var16);
-				var1.vertexUV(var11, var12, var14, var18, var7);
-				var1.vertexUV(var9, var12, var10, var17, var7);
+				var1.vertexUV(var9, var13, var10, var18, var16);
+				var1.vertexUV(var11, var13, var14, var17, var16);
+				var1.vertexUV(var11, var12, var14, var17, var7);
+				var1.vertexUV(var9, var12, var10, var18, var7);
 			}
 
+			return true;
 		}
 	}
 
-	public final AABB getBoundingBox(int var1, int var2, int var3) {
+	public final AABB getAABB(int var1, int var2, int var3) {
 		return null;
 	}
 

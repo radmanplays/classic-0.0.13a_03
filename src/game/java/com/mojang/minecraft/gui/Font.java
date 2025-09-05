@@ -12,6 +12,7 @@ public final class Font {
 	private int fontTexture = 0;
 
 	public Font(String var1, Textures var2) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		ImageData var3 = ImageData.loadImageFile(EagRuntime.getResourceStream(var1));
 		int var4 = var3.getWidth();
 		int var5 = var3.getHeight();
@@ -47,6 +48,7 @@ public final class Font {
 	}
 
 	public final void drawShadow(String var1, int var2, int var3, int var4) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.draw(var1, var2 + 1, var3 + 1, var4, true);
 		this.draw(var1, var2, var3, var4, false);
 	}
@@ -60,7 +62,7 @@ public final class Font {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.fontTexture);
-		Tesselator var6 = Tesselator.tesselator;
+		Tesselator var6 = Tesselator.instance;
 		var6.begin();
 		var6.color(var4);
 		int var7 = 0;
@@ -95,7 +97,7 @@ public final class Font {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 	}
 
-	public final int getWidth(String var1) {
+	public final int width(String var1) {
 		char[] var4 = var1.toCharArray();
 		int var2 = 0;
 

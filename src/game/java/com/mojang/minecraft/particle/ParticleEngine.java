@@ -10,32 +10,32 @@ import org.lwjgl.opengl.GL11;
 
 public final class ParticleEngine {
 	public List particles = new ArrayList();
-	private Textures textureManager;
+	private Textures textures;
 
 	public ParticleEngine(Level var1, Textures var2) {
-		this.textureManager = var2;
+		this.textures = var2;
 	}
 
 	public final void render(Player var1, float var2, int var3) {
 		if(this.particles.size() != 0) {
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			int var4 = this.textureManager.loadTexture("/terrain.png", 9728);
+			int var4 = this.textures.loadTexture("/terrain.png", 9728);
 			GL11.glBindTexture(GL11.GL_TEXTURE_2D, var4);
-			float var26 = -((float)Math.cos((double)var1.yaw * Math.PI / 180.0D));
-			float var5 = -((float)Math.sin((double)var1.yaw * Math.PI / 180.0D));
-			float var6 = -var5 * (float)Math.sin((double)var1.pitch * Math.PI / 180.0D);
-			float var7 = var26 * (float)Math.sin((double)var1.pitch * Math.PI / 180.0D);
-			float var25 = (float)Math.cos((double)var1.pitch * Math.PI / 180.0D);
-			Tesselator var8 = Tesselator.tesselator;
+			float var26 = -((float)Math.cos((double)var1.yRot * Math.PI / 180.0D));
+			float var5 = -((float)Math.sin((double)var1.yRot * Math.PI / 180.0D));
+			float var6 = -var5 * (float)Math.sin((double)var1.xRot * Math.PI / 180.0D);
+			float var7 = var26 * (float)Math.sin((double)var1.xRot * Math.PI / 180.0D);
+			float var25 = (float)Math.cos((double)var1.xRot * Math.PI / 180.0D);
+			Tesselator var8 = Tesselator.instance;
 			GL11.glColor4f(0.8F, 0.8F, 0.8F, 1.0F);
 			var8.begin();
 
 			for(int var9 = 0; var9 < this.particles.size(); ++var9) {
 				Particle var10 = (Particle)this.particles.get(var9);
 				if(var10.isLit() ^ var3 == 1) {
-					float var18 = ((float)(var10.tex % 16) + var10.u / 4.0F) / 16.0F;
+					float var18 = ((float)(var10.tex % 16) + var10.uo / 4.0F) / 16.0F;
 					float var19 = var18 + 0.999F / 64.0F;
-					float var20 = ((float)(var10.tex / 16) + var10.v / 4.0F) / 16.0F;
+					float var20 = ((float)(var10.tex / 16) + var10.vo / 4.0F) / 16.0F;
 					float var21 = var20 + 0.999F / 64.0F;
 					float var22 = 0.1F * var10.size;
 					float var23 = var10.xo + (var10.x - var10.xo) * var2;

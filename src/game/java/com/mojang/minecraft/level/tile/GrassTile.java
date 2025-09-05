@@ -6,7 +6,7 @@ import java.util.Random;
 public final class GrassTile extends Tile {
 	protected GrassTile(int var1) {
 		super(2);
-		this.textureIndex = 3;
+		this.tex = 3;
 		this.setTicking(true);
 	}
 

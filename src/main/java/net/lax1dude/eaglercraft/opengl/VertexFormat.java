@@ -21,6 +21,7 @@ import static net.lax1dude.eaglercraft.opengl.RealOpenGLEnums.*;
 public enum VertexFormat {
 	POSITION_TEX(true, false, false, false, false),
 	POSITION_TEX_COLOR(true, true, false, false, false),
+	POSITION_COLOR(false, true, true, false, false),
 	MODIFIABLE(false, false, false, false, true);
 
 	public static final int COMPONENT_POSITION_SIZE = 3;

@@ -18,6 +18,16 @@ public final class AABB {
 		this.z1 = var6;
 	}
 
+	public final AABB grow(float var1, float var2, float var3) {
+		float var4 = this.x0 - var1;
+		float var5 = this.y0 - var2;
+		float var6 = this.z0 - var3;
+		var1 += this.x1;
+		var2 += this.y1;
+		float var7 = this.z1 + var3;
+		return new AABB(var4, var5, var6, var1, var2, var7);
+	}
+
 	public final boolean intersects(AABB var1) {
 		return var1.x1 > this.x0 && var1.x0 < this.x1 ? (var1.y1 > this.y0 && var1.y0 < this.y1 ? var1.z1 > this.z0 && var1.z0 < this.z1 : false) : false;
 	}

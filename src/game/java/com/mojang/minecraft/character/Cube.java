@@ -5,8 +5,8 @@ import org.lwjgl.opengl.GL11;
 public final class Cube {
 	private Vertex[] vertices;
 	private Polygon[] polygons;
-	private int textureOffsetX;
-	private int textureOffsetY;
+	private int xTexOffs;
+	private int yTexOffs;
 	private float x;
 	private float y;
 	private float z;
@@ -17,8 +17,8 @@ public final class Cube {
 	private int list = 0;
 
 	public Cube(int var1, int var2) {
-		this.textureOffsetX = var1;
-		this.textureOffsetY = var2;
+		this.xTexOffs = var1;
+		this.yTexOffs = var2;
 	}
 
 	public final void addBox(float var1, float var2, float var3, int var4, int var5, int var6) {
@@ -43,12 +43,12 @@ public final class Cube {
 		this.vertices[5] = var15;
 		this.vertices[6] = var17;
 		this.vertices[7] = var14;
-		this.polygons[0] = new Polygon(new Vertex[]{var15, var11, var12, var17}, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4 + var6, this.textureOffsetY + var6 + var5);
-		this.polygons[1] = new Polygon(new Vertex[]{var10, var13, var14, var16}, this.textureOffsetX, this.textureOffsetY + var6, this.textureOffsetX + var6, this.textureOffsetY + var6 + var5);
-		this.polygons[2] = new Polygon(new Vertex[]{var15, var13, var10, var11}, this.textureOffsetX + var6, this.textureOffsetY, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6);
-		this.polygons[3] = new Polygon(new Vertex[]{var12, var16, var14, var17}, this.textureOffsetX + var6 + var4, this.textureOffsetY, this.textureOffsetX + var6 + var4 + var4, this.textureOffsetY + var6);
-		this.polygons[4] = new Polygon(new Vertex[]{var11, var10, var16, var12}, this.textureOffsetX + var6, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4, this.textureOffsetY + var6 + var5);
-		this.polygons[5] = new Polygon(new Vertex[]{var13, var15, var17, var14}, this.textureOffsetX + var6 + var4 + var6, this.textureOffsetY + var6, this.textureOffsetX + var6 + var4 + var6 + var4, this.textureOffsetY + var6 + var5);
+		this.polygons[0] = new Polygon(new Vertex[]{var15, var11, var12, var17}, this.xTexOffs + var6 + var4, this.yTexOffs + var6, this.xTexOffs + var6 + var4 + var6, this.yTexOffs + var6 + var5);
+		this.polygons[1] = new Polygon(new Vertex[]{var10, var13, var14, var16}, this.xTexOffs, this.yTexOffs + var6, this.xTexOffs + var6, this.yTexOffs + var6 + var5);
+		this.polygons[2] = new Polygon(new Vertex[]{var15, var13, var10, var11}, this.xTexOffs + var6, this.yTexOffs, this.xTexOffs + var6 + var4, this.yTexOffs + var6);
+		this.polygons[3] = new Polygon(new Vertex[]{var12, var16, var14, var17}, this.xTexOffs + var6 + var4, this.yTexOffs, this.xTexOffs + var6 + var4 + var4, this.yTexOffs + var6);
+		this.polygons[4] = new Polygon(new Vertex[]{var11, var10, var16, var12}, this.xTexOffs + var6, this.yTexOffs + var6, this.xTexOffs + var6 + var4, this.yTexOffs + var6 + var5);
+		this.polygons[5] = new Polygon(new Vertex[]{var13, var15, var17, var14}, this.xTexOffs + var6 + var4 + var6, this.yTexOffs + var6, this.xTexOffs + var6 + var4 + var6 + var4, this.yTexOffs + var6 + var5);
 	}
 
 	public final void setPos(float var1, float var2, float var3) {

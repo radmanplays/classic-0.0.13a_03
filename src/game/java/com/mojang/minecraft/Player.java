@@ -1,9 +1,10 @@
 package com.mojang.minecraft;
 
 import com.mojang.minecraft.level.Level;
-import org.lwjgl.input.Keyboard;
 
 public final class Player extends Entity {
+	boolean[] keys = new boolean[10];
+
 	public Player(Level var1) {
 		super(var1);
 		this.heightOffset = 1.62F;
@@ -17,50 +18,58 @@ public final class Player extends Entity {
 		float var2 = 0.0F;
 		boolean var3 = this.isInWater();
 		boolean var4 = this.isInLava();
-		if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
-			this.resetPos();
-		}
-
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W)) {
+		if(this.keys[0]) {
 			var2 = 0.0F - 1.0F;
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S)) {
+		if(this.keys[1]) {
 			++var2;
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A)) {
+		if(this.keys[2]) {
 			var1 = 0.0F - 1.0F;
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D)) {
+		if(this.keys[3]) {
 			++var1;
 		}
 
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+		if(this.keys[4]) {
 			if(var3) {
-				this.yd += 0.06F;
+				this.yd += 0.04F;
 			} else if(var4) {
 				this.yd += 0.04F;
 			} else if(this.onGround) {
-				this.yd = 0.5F;
+				this.yd = 0.42F;
+				this.keys[4] = false;
 			}
 		}
 
+		float var5;
 		if(var3) {
+			var5 = this.y;
 			this.moveRelative(var1, var2, 0.02F);
 			this.move(this.xd, this.yd, this.zd);
-			this.xd *= 0.7F;
-			this.yd *= 0.7F;
-			this.zd *= 0.7F;
+			this.xd *= 0.8F;
+			this.yd *= 0.8F;
+			this.zd *= 0.8F;
 			this.yd = (float)((double)this.yd - 0.02D);
+			if(this.horizontalCollision && this.isFree(this.xd, this.yd + 0.6F - this.y + var5, this.zd)) {
+				this.yd = 0.3F;
+			}
+
 		} else if(var4) {
+			var5 = this.y;
 			this.moveRelative(var1, var2, 0.02F);
 			this.move(this.xd, this.yd, this.zd);
 			this.xd *= 0.5F;
 			this.yd *= 0.5F;
 			this.zd *= 0.5F;
 			this.yd = (float)((double)this.yd - 0.02D);
+			if(this.horizontalCollision && this.isFree(this.xd, this.yd + 0.6F - this.y + var5, this.zd)) {
+				this.yd = 0.3F;
+			}
+
 		} else {
 			this.moveRelative(var1, var2, this.onGround ? 0.1F : 0.02F);
 			this.move(this.xd, this.yd, this.zd);

@@ -7,18 +7,18 @@ import org.lwjgl.opengl.GL11;
 
 public final class Zombie extends Entity {
 	private float rot;
-	private float timeOffset;
+	private float timeOffs;
 	private float speed;
 	private float rotA;
 	private static ZombieModel zombieModel = new ZombieModel();
-	private Textures textureManager;
+	private Textures textures;
 
 	public Zombie(Level var1, Textures var2, float var3, float var4, float var5) {
 		super(var1);
-		this.textureManager = var2;
+		this.textures = var2;
 		this.rotA = (float)(Math.random() + 1.0D) * 0.01F;
 		this.setPos(var3, var4, var5);
-		this.timeOffset = (float)Math.random() * 1239813.0F;
+		this.timeOffs = (float)Math.random() * 1239813.0F;
 		this.rot = (float)(Math.random() * Math.PI * 2.0D);
 		this.speed = 1.0F;
 	}
@@ -57,9 +57,9 @@ public final class Zombie extends Entity {
 
 	public final void render(float var1) {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.textureManager.loadTexture("/char.png", GL11.GL_NEAREST));
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.textures.loadTexture("/char.png", GL11.GL_NEAREST));
 		GL11.glPushMatrix();
-		double var2 = (double)System.nanoTime() / 1.0E9D * 10.0D * (double)this.speed + (double)this.timeOffset;
+		double var2 = (double)System.nanoTime() / 1.0E9D * 10.0D * (double)this.speed + (double)this.timeOffs;
 		float var4 = 0.058333334F;
 		float var5 = (float)(-Math.abs(Math.sin(var2 * 0.6662D)) * 5.0D - 23.0D);
 		GL11.glTranslatef(this.xo + (this.x - this.xo) * var1, this.yo + (this.y - this.yo) * var1, this.zo + (this.z - this.zo) * var1);

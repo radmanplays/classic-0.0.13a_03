@@ -14,9 +14,9 @@ public class LiquidTile extends Tile {
 	protected LiquidTile(int var1, int var2) {
 		super(var1);
 		this.liquidType = var2;
-		this.textureIndex = 14;
+		this.tex = 14;
 		if(var2 == 2) {
-			this.textureIndex = 30;
+			this.tex = 30;
 		}
 
 		if(var2 == 1) {
@@ -35,10 +35,10 @@ public class LiquidTile extends Tile {
 	}
 
 	public void tick(Level var1, int var2, int var3, int var4, Random var5) {
-		this.updateWater(var1, var2, var3, var4, 0);
+		this.b(var1, var2, var3, var4, 0);
 	}
 
-	private boolean updateWater(Level var1, int var2, int var3, int var4, int var5) {
+	private boolean b(Level var1, int var2, int var3, int var4, int var5) {
 		boolean var6 = false;
 
 		boolean var7;
@@ -56,10 +56,10 @@ public class LiquidTile extends Tile {
 
 		++var3;
 		if(this.liquidType == 1 || !var6) {
-			var6 |= this.checkWater(var1, var2 - 1, var3, var4, var5);
-			var6 |= this.checkWater(var1, var2 + 1, var3, var4, var5);
-			var6 |= this.checkWater(var1, var2, var3, var4 - 1, var5);
-			var6 |= this.checkWater(var1, var2, var3, var4 + 1, var5);
+			var6 |= this.c(var1, var2 - 1, var3, var4, var5);
+			var6 |= this.c(var1, var2 + 1, var3, var4, var5);
+			var6 |= this.c(var1, var2, var3, var4 - 1, var5);
+			var6 |= this.c(var1, var2, var3, var4 + 1, var5);
 		}
 
 		if(!var6) {
@@ -69,25 +69,29 @@ public class LiquidTile extends Tile {
 		return var6;
 	}
 
-	private boolean checkWater(Level var1, int var2, int var3, int var4, int var5) {
+	private boolean c(Level var1, int var2, int var3, int var4, int var5) {
 		boolean var6 = false;
 		int var7 = var1.getTile(var2, var3, var4);
 		if(var7 == 0) {
 			boolean var8 = var1.setTile(var2, var3, var4, this.tileId);
 			if(var8 && var5 < this.spreadSpeed) {
-				var6 = false | this.updateWater(var1, var2, var3, var4, var5 + 1);
+				var6 = false | this.b(var1, var2, var3, var4, var5 + 1);
 			}
 		}
 
 		return var6;
 	}
 
-	protected final boolean shouldRenderFace(Level var1, int var2, int var3, int var4, int var5) {
-		if(var5 != 2) {
-			return false;
+	protected final boolean shouldRenderFace(Level var1, int var2, int var3, int var4, int var5, int var6) {
+		if(var2 >= 0 && var3 >= 0 && var4 >= 0 && var2 < var1.width && var4 < var1.height) {
+			if(var5 != 2 && this.liquidType == 1) {
+				return false;
+			} else {
+				var5 = var1.getTile(var2, var3, var4);
+				return var5 != this.tileId && var5 != this.calmTileId ? super.shouldRenderFace(var1, var2, var3, var4, -1, var6) : false;
+			}
 		} else {
-			var5 = var1.getTile(var2, var3, var4);
-			return var5 != this.tileId && var5 != this.calmTileId ? super.shouldRenderFace(var1, var2, var3, var4, -1) : false;
+			return false;
 		}
 	}
 
@@ -96,11 +100,11 @@ public class LiquidTile extends Tile {
 		super.renderBackFace(var1, var2, var3, var4, var5);
 	}
 
-	public final boolean mayPick() {
+	public final boolean mayTick() {
 		return false;
 	}
 
-	public final AABB getBoundingBox(int var1, int var2, int var3) {
+	public final AABB getAABB(int var1, int var2, int var3) {
 		return null;
 	}
 
@@ -117,11 +121,11 @@ public class LiquidTile extends Tile {
 	}
 
 	public void neighborChanged(Level var1, int var2, int var3, int var4, int var5) {
-		if(this.liquidType == 1 && var5 == Tile.lava.id) {
+		if(this.liquidType == 1 && (var5 == Tile.lava.id || var5 == Tile.calmLava.id)) {
 			var1.setTileNoUpdate(var2, var3, var4, Tile.rock.id);
 		}
 
-		if(this.liquidType == 2 && var5 == Tile.water.id) {
+		if(this.liquidType == 2 && (var5 == Tile.water.id || var5 == Tile.calmWater.id)) {
 			var1.setTileNoUpdate(var2, var3, var4, Tile.rock.id);
 		}
 
