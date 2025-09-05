@@ -1,4 +1,4 @@
-# Classic 0.0.13a_3 [![Build and Upload JS + WASM](https://github.com/radmanplays/classic-0.0.13a_3/actions/workflows/gradle.yml/badge.svg)](https://github.com/radmanplays/classic-0.0.13a_3/actions/workflows/gradle.yml)
+# Classic 0.0.13a_3 [![Build and Upload JS + WASM](https://github.com/radmanplays/classic-0.0.13a_03/actions/workflows/gradle.yml/badge.svg)](https://github.com/radmanplays/classic-0.0.13a_03/actions/workflows/gradle.yml)
 <img width="854" height="480" alt="Classic_0 0 13a_03" src="https://github.com/user-attachments/assets/b9df3d1c-eb01-401c-bed4-3a4f088f0ddc" />
 
 
